@@ -3,7 +3,7 @@ language: python
 
 python:
   - "2.7" # remove a
-  - "3.5"
+  - "3.5" # drop support
   - "3.6"
   - "3.7"
   - "3.8"
@@ -40,6 +40,7 @@ matrix:
 
   allow_failures:
     - python: 2.7
+    - python: 3.5
     - env: DJANGO=1.8
     - env: DJANGO=dev
 
