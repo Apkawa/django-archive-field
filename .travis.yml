@@ -46,7 +46,7 @@ matrix:
 
 install: pip install tox-travis python-coveralls codecov
 
-script: tox
+script: tox -vv
 after_success:
   - codecov -e TOXENV,DJANGO
 
