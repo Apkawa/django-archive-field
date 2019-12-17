@@ -1,0 +1,64 @@
+sudo: false
+language: python
+
+python:
+  - "2.7" # remove a
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
+
+env:
+  - DJANGO=1.8
+  - DJANGO=1.11
+  - DJANGO=2.2
+  - DJANGO=3.0
+  - DJANGO=dev
+
+matrix:
+  fast_finish: true
+  exclude:
+    - { python: "3.5", env: DJANGO=1.8 }
+    - { python: "3.6", env: DJANGO=1.8 }
+    - { python: "3.7", env: DJANGO=1.8 }
+    - { python: "3.8", env: DJANGO=1.8 }
+
+    - { python: "3.8", env: DJANGO=1.11 }
+
+    - { python: "2.7", env: DJANGO=2.2 }
+    - { python: "2.7", env: DJANGO=3.0 }
+    - { python: "2.7", env: DJANGO=dev }
+
+    - { python: "3.5", env: DJANGO=3.0 }
+    - { python: "3.5", env: DJANGO=dev }
+
+
+  include:
+
+    - env: TOXENV=qa
+      python: 3.7
+
+  allow_failures:
+    - python: 2.7
+    - env: DJANGO=1.8
+    - env: DJANGO=dev
+
+
+install: pip install tox-travis python-coveralls codecov
+
+script: tox
+after_success:
+  - codecov -e TOXENV,DJANGO
+
+
+#deploy:
+#  provider: pypi
+#  user: Apkawa
+#  password:
+#    # https://docs.travis-ci.com/user/encryption-keys/
+#    secure: ''
+#  on:
+#    tags: true
+#    distributions: sdist bdist_wheel
+#    repo: Apkawa/django-archive-field
+#    branch: master
